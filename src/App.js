@@ -1,26 +1,60 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import LogInView from "./view/login/LogInView";
+import RegisterView from "./view/register/RegisterView";
+import CheckInCheckOut from "./view/checkIn/CheckInCheckOut";
+import Profile from "./view/userProfile/Profile";
+import AboutUs from "./view/aboutus/AboutUs"
+import UserInfo from "./view/userInformation/UserInfo";
+import "./App.css";
+import Fire from "./config/Firebase";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import NavBar from "./components/Navbar";
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { user: {} };
+    this.authListener = this.authListener.bind(this);
+  }
+  componentDidMount() {
+    this.authListener();
+  }
+  authListener() {
+    //this.setState({ user: "rezaul" });
+    Fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user });
+      } else {
+        this.setState({ user: null });
+      }
+    });
+  }
+  render() {
+    return (
+      <div className="App">
+        {this.state.user ? (
+          <Router>
+            <Switch>
+              <Route path="/" component={Profile} exact />
+              <Route path="/checkincheckout/:id" component={CheckInCheckOut} />
+              <Route path="/aboutus" component={AboutUs} />
+              <Route path="/userinfo" component={UserInfo} />
+            </Switch>
+          </Router>
+        ) : (
+          <Router>
+            <NavBar />
+            <Switch>
+              <Route path="/" exact component={LogInView} />
+              <Route path="/registerview" component={RegisterView} />
+              <Route path="/aboutus" component={AboutUs} />
+            </Switch>
+          </Router>
+        )}
+      </div>
+    );
+  }
 }
 
 export default App;
