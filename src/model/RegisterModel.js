@@ -33,7 +33,7 @@ class RegisterModel {
       })
       .catch((err) => {
         //window.alert("Please enter 6 degit password!");
-        window.alert("Error: " + err.toString());
+       console.log("Error: " + err.toString());
       });
   }
 
@@ -48,7 +48,7 @@ class RegisterModel {
         alert("Successfully Logged in");
       })
       .catch((err) => {
-        alert("Error : " + err.toString());
+        console.log("Error : " + err.toString());
       });
   }
 

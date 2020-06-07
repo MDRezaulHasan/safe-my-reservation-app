@@ -101,7 +101,7 @@ class RegisterView extends Component {
                   id="phoneNumber"
                   //   onChange={this.handleChange}
                   pattern="[0-9]{10}"
-                  placeholder="Phone number"
+                  placeholder="0XXXXXXXXX"
                   required="required"
                 />
               </div>
